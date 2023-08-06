@@ -11,3 +11,7 @@ def import_or_install(package):
         __import__(package)
     except ImportError:
         subprocess.check_call([sys.executable, "-m", "pip", "install", package])  
+if __name__ == "__main__":
+   subprocess.check_call([sys.executable, "-m", "pip", "install", "tk-tools"])
+   subprocess.check_call([sys.executable, "-m", "pip", "install", "customtkinter"])
+   subprocess.check_call([sys.executable, "-m", "pip", "install", "mysql-connector-python"])

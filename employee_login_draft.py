@@ -1,46 +1,54 @@
-import sys
-from settings import LOADER
+import json
+# (TODO):change to import sys 
+from assets.dependency_scripts.settings import LOADER
 dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter'])
 import tkinter as tk
 import customtkinter as ui
-import mysql.connector
-# === manually add your password untill we write the sql user login window lol ===
-mydb=mysql.connector.connect(host="localhost",user="root",passwd="user_password",auth_plugin='mysql_native_password')
-if (mydb):
-    print("\n\nconnection successful")
-else:
-    print("connection unsuccessful")
+#import mysql.connector
+class EMPLOYEE_LOGIN():
+    def __init__(self) -> None:
+        
+        self.employee_login_window = ui.CTk()
+        self.employee_login_window.title("Employee Login Window")
+        self.employee_login_window.geometry("500x350")
+        
+        ui.set_appearance_mode("dark")
+        ui.set_default_color_theme("dark-blue")
 
-ui.set_appearance_mode("dark")
-ui.set_default_color_theme("dark-blue")
+        self.frame = ui.CTkFrame(master=self.employee_login_window)
+        self.frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-employee_login_window = ui.CTk()
-employee_login_window.title("Employee Login Window")
-employee_login_window.geometry("500x350")
+        self.label = ui.CTkLabel(master=self.frame, text="Employee Login", font=("Hack Nerd Font", 24))
+        self.label.pack(pady=12, padx=10)
+        
+        self.employee_id = ui.CTkEntry(master=self.frame, placeholder_text="Employee ID", font=("Arial",12),corner_radius=15)
+        self.employee_id.pack(pady=12, padx=10)
 
-frame = ui.CTkFrame(master=employee_login_window)
-frame.pack(pady=20, padx=60, fill="both", expand=True)
+        self.employee_passwd = ui.CTkEntry(master=self.frame, placeholder_text="Password", show="●", font=("Arial",12),corner_radius=15)
+        self.employee_passwd.pack(pady=12, padx=10)
 
-label = ui.CTkLabel(master=frame, text="Employee Login", font=("Hack Nerd Font", 24))
-label.pack(pady=12, padx=10)
+        self.button = ui.CTkButton(master=self.frame, text="Login", command=self.sign_in,corner_radius=15)
+        self.button.pack(pady=12, padx=10)
 
-
-employee_id = ui.CTkEntry(master=frame, placeholder_text="Employee ID", font=("Hack Nerd Font",12),corner_radius=15)
-employee_id.pack(pady=12, padx=10)
-
-employee_passwd = ui.CTkEntry(master=frame, placeholder_text="Password", show="●", font=("Arial",12),corner_radius=15)
-employee_passwd.pack(pady=12, padx=10)
-
-def sign_in():
-    print(employee_id.get())
-    print(employee_passwd.get())
-    employee_id.delete(0, 'end')
-    employee_passwd.delete(0, 'end')
-
-button = ui.CTkButton(master=frame, text="Login", command=sign_in,corner_radius=15)
-button.pack(pady=12, padx=10)
-
-checkbox = ui.CTkCheckBox(master=frame, text="Remember Me")
-checkbox.pack(pady=12, padx=10)
-
-employee_login_window.mainloop()
+        self.checkbox = ui.CTkCheckBox(master=self.frame, text="Remember Me")
+        self.checkbox.pack(pady=12, padx=10)
+        
+    def sign_in(self):
+        if self.checkbox.get() == 1:
+            self.local_login_data = {
+                "employee_id": self.employee_id.get(),
+                "employee_passwd": self.employee_passwd.get()
+            }
+            self.json_object = json.dumps(self.local_login_data,indent=2)
+            with open("local_employee.json", "w") as outfile:
+                outfile.write(self.json_object)
+                
+        self.employee_id.delete(0, 'end')
+        self.employee_passwd.delete(0, 'end')
+        self.checkbox.deselect()
+        
+    def mainlooper(self):
+        self.employee_login_window.mainloop()
+if __name__ == "__main__":
+    empwin=EMPLOYEE_LOGIN()
+    empwin.mainlooper()
