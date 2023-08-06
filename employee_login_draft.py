@@ -18,7 +18,7 @@ class EMPLOYEE_LOGIN():
         self.frame = ui.CTkFrame(master=self.employee_login_window)
         self.frame.pack(pady=20, padx=60, fill="both", expand=True)
 
-        self.label = ui.CTkLabel(master=self.frame, text="Employee Login", font=("Hack Nerd Font", 24))
+        self.label = ui.CTkLabel(master=self.frame, text="Employee Login", font=("Arial", 24))
         self.label.pack(pady=12, padx=10)
         
         self.employee_id = ui.CTkEntry(master=self.frame, placeholder_text="Employee ID", font=("Arial",12),corner_radius=15)
@@ -40,7 +40,7 @@ class EMPLOYEE_LOGIN():
                 "employee_passwd": self.employee_passwd.get()
             }
             self.json_object = json.dumps(self.local_login_data,indent=2)
-            with open("local_employee.json", "w") as outfile:
+            with open("local_employee.json", "w+") as outfile:
                 outfile.write(self.json_object)
                 
         self.employee_id.delete(0, 'end')
