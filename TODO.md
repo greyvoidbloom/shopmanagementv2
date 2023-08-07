@@ -8,4 +8,4 @@ Mon 7 Aug 17:10hrs
 1.learn how to properly make modules
 2.encryption software
 3. new imports
-
+4.im sad
