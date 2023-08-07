@@ -1,7 +1,8 @@
 import json
 import os
+import sys
 sql_details_storage_dir = './assets/login_info'
-from assets.dependency_scripts.settings import LOADER
+from dependency_scripts.settings import LOADER
 dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter','datetime'])
 from datetime import datetime
 import tkinter as tk

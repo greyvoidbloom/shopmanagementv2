@@ -2,8 +2,7 @@ import json
 import os
 from datetime import datetime
 user_details_storage_dir = './assets/login_info'
-# (TODO):change to import sys 
-from assets.dependency_scripts.settings import LOADER
+from dependency_scripts.settings import LOADER
 dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter'])
 import tkinter as tk
 import customtkinter as ui
@@ -33,7 +32,7 @@ class EMPLOYEE_LOGIN():
         self.button = ui.CTkButton(master=self.frame, text="Login", command=self.sign_in,corner_radius=15)
         self.button.pack(pady=12, padx=10)
 
-        self.checkbox = ui.CTkCheckBox(master=self.frame, text="Remember Me")
+        self.checkbox = ui.CTkCheckBox(master=self.frame, text="Save to Device")
         self.checkbox.pack(pady=12, padx=10)
         
     def sign_in(self):
