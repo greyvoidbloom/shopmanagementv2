@@ -1,4 +1,7 @@
 import json
+import os
+from datetime import datetime
+user_details_storage_dir = './assets/login_info'
 # (TODO):change to import sys 
 from assets.dependency_scripts.settings import LOADER
 dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter'])
@@ -35,12 +38,17 @@ class EMPLOYEE_LOGIN():
         
     def sign_in(self):
         if self.checkbox.get() == 1:
+            try:
+                os.makedirs(user_details_storage_dir)
+                print("[",datetime.now().strftime("%d/%m/%Y | %H:%M:%S"),"]: Folder %s created!" % user_details_storage_dir)
+            except FileExistsError:
+                pass
             self.local_login_data = {
                 "employee_id": self.employee_id.get(),
                 "employee_passwd": self.employee_passwd.get()
             }
             self.json_object = json.dumps(self.local_login_data,indent=2)
-            with open("local_employee.json", "w+") as outfile:
+            with open("./assets/login_info/local_employee.json", "w+") as outfile:
                 outfile.write(self.json_object)
                 
         self.employee_id.delete(0, 'end')

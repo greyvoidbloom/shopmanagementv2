@@ -1,7 +1,7 @@
 import json
-import sys
-sys.path.insert(1,'../')
-from dependency_scripts.settings import LOADER
+import os
+sql_details_storage_dir = './assets/login_info'
+from assets.dependency_scripts.settings import LOADER
 dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter','datetime'])
 from datetime import datetime
 import tkinter as tk
@@ -43,6 +43,18 @@ class SQL_USER_LOGIN():
         try :
             self.mydb=mysql.connector.connect(host="localhost",user=self.sql_user_id.get(),passwd=self.sql_passwd.get(),auth_plugin='mysql_native_password')
             if self.mydb.is_connected():
+                try:
+                    os.makedirs(sql_details_storage_dir)
+                    print("[",datetime.now().strftime("%d/%m/%Y | %H:%M:%S"),"]: Folder %s created!" % sql_details_storage_dir)
+                except FileExistsError:
+                    pass
+                self.local_login_data = {
+                "user id": self.sql_user_id.get(),
+                "passwd": self.sql_passwd.get()
+                }
+                self.json_object = json.dumps(self.local_login_data,indent=2)
+                with open("./assets/login_info/sql_user_data.json", "w+") as outfile:
+                    outfile.write(self.json_object)
                 print("\n[",datetime.now().strftime("%d/%m/%Y | %H:%M:%S"),"]: connection successful")
                 self.sql_user_id.delete(0, 'end')
                 self.sql_passwd.delete(0, 'end')
