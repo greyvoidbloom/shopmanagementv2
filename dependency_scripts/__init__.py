@@ -1,1 +1,2 @@
-from .settings import LOADER
+from .packageloader import LOADER
+from .passwdencryptionscript import Crypt

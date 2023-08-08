@@ -2,10 +2,13 @@ import json
 import os
 from datetime import datetime
 user_details_storage_dir = './assets/login_info'
-from dependency_scripts.settings import LOADER
-dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter'])
+from dependency_scripts.packageloader import LOADER
+dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter','pycryptodome'])
 import tkinter as tk
 import customtkinter as ui
+from dependency_scripts.passwdencryptionscript import Crypt
+encryptioner = Crypt()
+testkey = 'threegaymenisten'
 #import mysql.connector
 class EMPLOYEE_LOGIN():
     def __init__(self) -> None:
@@ -43,8 +46,8 @@ class EMPLOYEE_LOGIN():
             except FileExistsError:
                 pass
             self.local_login_data = {
-                "employee_id": self.employee_id.get(),
-                "employee_passwd": self.employee_passwd.get()
+                "employee_id": encryptioner.encrypt(self.employee_id.get(),testkey),
+                "employee_passwd": encryptioner.encrypt(self.employee_passwd.get(),testkey),
             }
             self.json_object = json.dumps(self.local_login_data,indent=2)
             with open("./assets/login_info/local_employee.json", "w+") as outfile:

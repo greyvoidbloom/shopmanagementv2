@@ -15,3 +15,4 @@ if __name__ == "__main__":
    subprocess.check_call([sys.executable, "-m", "pip", "install", "tk-tools"])
    subprocess.check_call([sys.executable, "-m", "pip", "install", "customtkinter"])
    subprocess.check_call([sys.executable, "-m", "pip", "install", "mysql-connector-python"])
+   subprocess.check_call([sys.executable, "-m","pip","install","pycryptodome"])

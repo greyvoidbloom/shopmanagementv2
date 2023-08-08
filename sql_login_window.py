@@ -1,13 +1,16 @@
 import json
 import os
-import sys
 sql_details_storage_dir = './assets/login_info'
-from dependency_scripts.settings import LOADER
+from dependency_scripts.packageloader import LOADER
 dependecyload = LOADER(['tk-tools','mysql-connector-python','customtkinter','datetime'])
 from datetime import datetime
 import tkinter as tk
 import customtkinter as ui
 import mysql.connector
+
+from dependency_scripts.passwdencryptionscript import Crypt
+encryptioner = Crypt()
+testkey = 'IqW0%N:lkB$D+@m0'
 class SQL_USER_LOGIN():
     def __init__(self) -> None:
         
@@ -50,8 +53,8 @@ class SQL_USER_LOGIN():
                 except FileExistsError:
                     pass
                 self.local_login_data = {
-                "user id": self.sql_user_id.get(),
-                "passwd": self.sql_passwd.get()
+                "user id": encryptioner.encrypt(self.sql_user_id.get(),testkey),
+                "passwd": encryptioner.encrypt(self.sql_passwd.get(),testkey)
                 }
                 self.json_object = json.dumps(self.local_login_data,indent=2)
                 with open("./assets/login_info/sql_user_data.json", "w+") as outfile:
